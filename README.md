@@ -28,6 +28,7 @@ Paper ([BMVC offcial publication](https://papers.bmvc2023.org/0617.pdf), [Full v
 
 Set image path and some hyper-parameters in [.\utils\configs.py](utils/config.py), and start pretraining full version of PEAC:
 ```
+git clone git@github.com:jlianglab/PEAC.git
 python global_local_popar_swin.py
 ```
 Pretrain the downgraded version of PEAC (without local loss):
