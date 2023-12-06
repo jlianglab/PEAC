@@ -73,7 +73,7 @@ python correspondence.py
 
 We semantically co-segment common structure of images in a zero-shot scenario. The cervico scapular region, upper lobe of lungs, lower lobe of lungs, mediastinum, and abdominal cavity are clearly segmented as common features.
 
-![Co-segmentation](images/correspondence.jpg)
+![Co-segmentation](images/cosegmentation.jpg)
 
 ```
 cd visualizations
