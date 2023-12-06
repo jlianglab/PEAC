@@ -145,7 +145,7 @@ class PEC_Model(nn.Module):
 
         self.num_classes = num_classes
         self.hidden_size = hidden_size
-        self.embed_dim = hidden_size*8 # encoder输出层维度
+        self.embed_dim = hidden_size*8 # output dimension of encoder
         self.depth = depth
         self.heads = heads
         self.swin_model = _SwinTransformer(img_size=448,patch_size=4,in_chans=3,num_classes=0,embed_dim=self.hidden_size,depths=self.depth,num_heads= self.heads,
@@ -153,7 +153,7 @@ class PEC_Model(nn.Module):
         self.mlp = self.MLP(config.MODEL.MLP, self.embed_dim)
         self.mlp_local = self.MLP(config.MODEL.MLPLOCAL, self.embed_dim)
 
-        # popar分类和复原头
+        # popar classification and restoration head
         self.head = nn.Linear(1024 , self.num_classes,bias=False)
         self.bias = nn.Parameter(torch.zeros(self.num_classes))
         self.head.bias = self.bias
@@ -165,12 +165,12 @@ class PEC_Model(nn.Module):
             nn.PixelShuffle(32)
         )
 
-    def forward(self, img_x, perm): # img_x用于popar输入
+    def forward(self, img_x, perm): 
         B,C,H,W = img_x.shape
 
         img_x = rearrange(img_x, 'b c (h p1) (w p2)-> b (h w) c p1 p2', p1=32, p2=32, w=14,h=14) # 切分后patch大小为32*32，patch个数14*14
         for i in range(B):
-            img_x[i] = img_x[i,perm[i],:,:,:] # perm:[80,196]，其中有1/2的概率patch是打乱顺序的
+            img_x[i] = img_x[i,perm[i],:,:,:] # perm:[80,196]，order distoration p=0.5
         img_x = rearrange(img_x, 'b (h w) c p1 p2 -> b c (h p1) (w p2)', p1=32, p2=32, w=14,h=14) # img_x: [80,3,448,448]
 
         out = self.swin_model(img_x) # out B,H*W,C (80,196,1024)
@@ -231,7 +231,7 @@ def build_model(conf, log_writter):
     ]
     #optimizer = AdamW(optimizer_grouped_parameters, lr=conf.lr)
     optimizer = optim.SGD(model.parameters(), lr=conf.TRAIN.LR, weight_decay=0, momentum=0.9, nesterov=False)
-    # model = model.double() # 把模型参数从float转为double
+    # model = model.double() 
 
     if torch.cuda.is_available():
 
@@ -291,7 +291,7 @@ def train(train_loader, student, teacher, momentum_schedule, optimizer, epoch, l
 
         # local_loss = 0.0
         # B, L = index1.shape
-        # actual_l = 0 # index填充1000前实际长度
+        # actual_l = 0 
         # for i in range(B):
         #     if not shuffle[i]:
         #         for j in range(L):
@@ -426,7 +426,7 @@ def test(test_loader, student, teacher, conf, epoch, writer, log_writter):
 
             # local_loss = 0
             # B, L = index1.shape
-            # actual_l = 0 # index填充1000前实际长度
+            # actual_l = 0 
             # for i in range(B):
             #     if not shuffle[i]:
             #         for j in range(L):
