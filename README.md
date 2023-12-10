@@ -38,10 +38,10 @@ python global_popar_swin.py
 
 Pretrained weights:
 
-| Model name | Backbone | Input Resolution | model |
-|------------|----------|------------------|-------|
-| PEAC<sup>-3</sup> | ViT-B | 224x224 | [download](https://drive.google.com/file/d/1EPfPY7kDs3mVsW2_pfGwuJ7-yQsFaoPN/view?usp=sharing)|
-|PEAC | Swin-B | 448x448 | [download](https://drive.google.com/file/d/1XQK-Kp80_zsq6t2fhUvGJwTvpzQUPlD1/view?usp=sharing)|
+| Model name | Backbone | Input Resolution | model | log |
+|------------|----------|------------------|-------|-----|
+| PEAC<sup>-3</sup> | ViT-B | 224x224 | [download](https://drive.google.com/file/d/1EPfPY7kDs3mVsW2_pfGwuJ7-yQsFaoPN/view?usp=sharing)| |
+|PEAC | Swin-B | 448x448 | [download](https://drive.google.com/file/d/1XQK-Kp80_zsq6t2fhUvGJwTvpzQUPlD1/view?usp=sharing)| [training log](https://drive.google.com/file/d/17m3R9NQDGfn4NP_e_g0j07KOo9ifUPkE/view?usp=sharing)
 
 # Finetune from PEAC model
 
