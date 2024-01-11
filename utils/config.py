@@ -12,11 +12,11 @@ _C.DATA = CN()
 _C.DATA.BATCH_SIZE = 32
 _C.DATA.NUM_WORKERS = 8
 _C.DATA.IMG_SIZE = 448
-_C.DATA.PATCH_SIZE = 4
-_C.DATA.DATA_PATH = '/data/zhouziyu/ssl/NIHChestX-ray14/images/'
-_C.DATA.TRAIN_LIST = '/home/zhouziyu/warmup/sslpretrain/BenchmarkTransformers/dataset/Xray14_train_official.txt'
-_C.DATA.VAL_LIST = '/home/zhouziyu/warmup/sslpretrain/BenchmarkTransformers/dataset/Xray14_val_official.txt'
-_C.DATA.TEST_LIST = '/home/zhouziyu/warmup/sslpretrain/BenchmarkTransformers/dataset/Xray14_test_official.txt'
+_C.DATA.PATCH_SIZE = 32
+_C.DATA.DATA_PATH = '/nobackup-data/zhouziyu/ssl/dataset/NIHChestXray/images/images_all'
+_C.DATA.TRAIN_LIST = '/ssd2/zhouziyu/ssl/github/PEAC/data/xray14/official/train_official.txt'
+_C.DATA.VAL_LIST = '/ssd2/zhouziyu/ssl/github/PEAC/data/xray14/official/val_official.txt'
+_C.DATA.TEST_LIST = '/ssd2/zhouziyu/ssl/github/PEAC/data/xray14/official/test_official.txt'
 
 
 _C.TRAIN = CN()

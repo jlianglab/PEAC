@@ -19,7 +19,7 @@ except ImportError:
     from scipy.misc import comb
 
 
-def build_loader_global_local(config):
+def build_loader_global_local(config, ddp=False):
     dataset_root = config.DATA.DATA_PATH
     traintxt = config.DATA.TRAIN_LIST
     valtxt = config.DATA.VAL_LIST
@@ -57,13 +57,6 @@ def build_loader_global_local(config):
     print("successfully build train dataset")
 
 
-    train_loader = DataLoader(dataset=train_dataset, 
-                                # sampler=sampler_train,
-                                batch_size=config.DATA.BATCH_SIZE, 
-                                shuffle=True, 
-                                num_workers=config.DATA.NUM_WORKERS,
-                                drop_last=True)
-
     with open(testtxt, encoding='utf-8') as e: # load train list and train label
         list = e.readlines()
         for i in list:
@@ -79,10 +72,32 @@ def build_loader_global_local(config):
     # sampler_val = torch.utils.data.distributed.DistributedSampler(
     #     val_dataset, shuffle=config.TEST.SHUFFLE
     # )
-    val_loader = DataLoader(dataset=val_dataset, 
-                            # sampler=sampler_val,
-                            batch_size=config.DATA.BATCH_SIZE, 
-                            num_workers=config.DATA.NUM_WORKERS)
+    if ddp:
+        sampler_train = torch.utils.data.distributed.DistributedSampler(train_dataset, shuffle=True)
+        train_loader = DataLoader(dataset=train_dataset, 
+                                sampler=sampler_train,
+                                batch_size=config.DATA.BATCH_SIZE, 
+                                # shuffle=True, 
+                                num_workers=config.DATA.NUM_WORKERS,
+                                drop_last=True)
+        
+        sampler_val = torch.utils.data.distributed.DistributedSampler(val_dataset)
+        val_loader = DataLoader(dataset=val_dataset, 
+                                sampler=sampler_val,
+                                batch_size=config.DATA.BATCH_SIZE, 
+                                num_workers=config.DATA.NUM_WORKERS)
+
+    else:
+        train_loader = DataLoader(dataset=train_dataset, 
+                                    # sampler=sampler_train,
+                                    batch_size=config.DATA.BATCH_SIZE, 
+                                    shuffle=True, 
+                                    num_workers=config.DATA.NUM_WORKERS,
+                                    drop_last=True)
+        val_loader = DataLoader(dataset=val_dataset, 
+                                # sampler=sampler_val,
+                                batch_size=config.DATA.BATCH_SIZE, 
+                                num_workers=config.DATA.NUM_WORKERS)
 
     return train_dataset, val_dataset, train_loader, val_loader
 
@@ -113,12 +128,12 @@ class NIHchest_dataset(Dataset):
         # print(patch1.shape)
         gt_patch1 = self.popar_transform[1](patch1)
         p = random.random()
-        if p<0.5: # 加噪
-            patch1 = self.popar_transform[0](patch1)
-            patch2 = self.popar_transform[1](patch2) # patch2不加噪
+        if p<0.5: 
+            patch1 = self.popar_transform[0](patch1) # patch1 add noise
+            patch2 = self.popar_transform[1](patch2) # patch2 initial image
             randperm = torch.arange(0, (self.image_size//self.patch_size)**2, dtype=torch.long) 
             shuffle = 0
-        else:# 打乱patch顺序
+        else:# shuffle patch order
             patch1 = self.popar_transform[1](patch1)
             patch2 = self.popar_transform[1](patch2)
             randperm = torch.randperm((self.image_size//self.patch_size)**2, dtype=torch.long)
