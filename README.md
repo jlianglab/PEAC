@@ -31,6 +31,10 @@ Set image path and some hyper-parameters in [.\utils\configs.py](utils/config.py
 git clone git@github.com:jlianglab/PEAC.git
 python global_local_popar_swin.py
 ```
+Using DDP to pretrain PEAC:
+```
+CUDA_VISIBLE_DEVICES="4,5,6,7" python -m torch.distributed.launch --nproc_per_node 4 global_local_popar_swin_ddp.py
+```
 Pretrain the downgraded version of PEAC (without local loss):
 ```
 python global_popar_swin.py
