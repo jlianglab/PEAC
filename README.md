@@ -45,7 +45,7 @@ Pretrained weights:
 | Model name | Backbone | Input Resolution | model | log |
 |------------|----------|------------------|-------|-----|
 | PEAC<sup>-3</sup> | ViT-B | 224x224 | [download](https://drive.google.com/file/d/1XA-d77RS5TtKruH0zMfPh0up40HZb5sN/view?usp=sharing)| |
-|PEAC | Swin-B | 448x448 | [download](https://drive.google.com/file/d/1wDwcLpo1wSpdQ6jLmdW8XqLB5FYZRq_k/view?usp=sharing)| [training log](https://drive.google.com/file/d/17m3R9NQDGfn4NP_e_g0j07KOo9ifUPkE/view?usp=sharing)
+|PEAC | Swin-B | 448x448 | [download](https://drive.google.com/file/d/1wDwcLpo1wSpdQ6jLmdW8XqLB5FYZRq_k/view?usp=sharing)| [training log](https://drive.google.com/file/d/17oi2Wh0TaLg04DEMwlf0dSIQeUyr1Z6W/view?usp=sharing)
 
 # Finetune from PEAC model
 
