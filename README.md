@@ -85,6 +85,7 @@ python cosegmentation.py
 ```
 
 # Citation
+Please give us a star 🌟 on Github to support us!
 
 If you use this code or use out pretrained weights for your research, please cite out paper:
 
